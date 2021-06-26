@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">FirebaseAuthDemo</string>
+    <string name="email">Email</string>
+    <string name="login">LOGIN</string>
+    <string name="password">password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="create_an_account">CREATE AN ACCOUNT</string>
+    <string name="register">REGISTER</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
+    <string name="you_are_logged_successfully">You are logged successfully</string>
+    <string name="user_id">user Id</string>
 </resources>
