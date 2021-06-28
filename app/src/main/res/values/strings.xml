@@ -12,4 +12,8 @@
     <string name="don_t_have_an_account_register">Don\'t have an account? Register</string>
     <string name="you_are_logged_successfully">You are logged successfully</string>
     <string name="user_id">user Id</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="forgot_password_screen">FORGOT PASSWORD SCREEN</string>
+    <string name="reset_text">ENTER YOUR USERNAME OR EMAIL ADDRESS, WILL SEND YOU AN EMAIL TO RESET YOUR PASSWORD</string>
+    <string name="submit">Submit</string>
 </resources>

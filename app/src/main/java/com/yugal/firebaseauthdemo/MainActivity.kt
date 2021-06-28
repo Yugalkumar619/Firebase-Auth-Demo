@@ -25,67 +25,76 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_login.setOnClickListener {
-            when{
-                TextUtils.isEmpty(et_email.text.toString().trim() {it <= ' '}) -> {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Please enter email.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                TextUtils.isEmpty(et_password.text.toString().trim() {it <= ' '}) -> {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Please enter password.",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                else -> {
+            login()
+        }
 
-                    val email: String = et_email.text.toString().trim{ it <= ' '}
-                    val password: String = et_password.text.toString().trim{ it <= ' '}
+        tv_forget_password.setOnClickListener(){
+            startActivity(Intent(this@MainActivity, ForgetPasswordActivity::class.java))
+        }
+    }
 
-                    // Create an instance and create a register a user with email and password.
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(
-                            OnCompleteListener<AuthResult> { task ->
+    private fun login(){
+        when{
+            TextUtils.isEmpty(et_email.text.toString().trim() {it <= ' '}) -> {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Please enter email.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            TextUtils.isEmpty(et_password.text.toString().trim() {it <= ' '}) -> {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Please enter password.",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else -> {
 
-                                // If the registration is successfully done
-                                if(task.isSuccessful) {
+                val email: String = et_email.text.toString().trim{ it <= ' '}
+                val password: String = et_password.text.toString().trim{ it <= ' '}
 
-                                    // Firebase registered user
+                // Create an instance and create a register a user with email and password.
+                FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener(
+                        OnCompleteListener<AuthResult> { task ->
 
-                                    Toast.makeText(
-                                        this@MainActivity,
-                                        "You are logged in successfully",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
+                            // If the registration is successfully done
+                            if(task.isSuccessful) {
+
+                                // Firebase registered user
+
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "You are logged in successfully",
+                                    Toast.LENGTH_SHORT
+                                ).show()
 
 
-                                    val intent =
-                                        Intent(this@MainActivity, MainPageActivity::class.java)
-                                    intent.flags =
-                                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                    intent.putExtra(
-                                        "user_id",
+                                val intent =
+                                    Intent(this@MainActivity, MainPageActivity::class.java)
+                                intent.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                intent.putExtra(
+                                    "user_id",
                                     FirebaseAuth.getInstance().currentUser!!.uid
-                                    )
+                                )
 
-                                    intent.putExtra("email_id", email)
-                                    startActivity(intent)
-                                    finish()
-                                } else {
-                                    // If the registering is not successful then show error message.
-                                    Toast.makeText(
-                                        this@MainActivity,
-                                        task.exception!!.message.toString(),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+                                intent.putExtra("email_id", email)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                // If the registering is not successful then show error message.
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    task.exception!!.message.toString(),
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        )
-                }
+                        }
+                    )
             }
         }
+
     }
 }
