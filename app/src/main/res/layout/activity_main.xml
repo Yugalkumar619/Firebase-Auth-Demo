@@ -84,8 +84,4 @@
         android:text="@string/don_t_have_an_account_register"
         android:gravity="center"/>
 
-    <
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
