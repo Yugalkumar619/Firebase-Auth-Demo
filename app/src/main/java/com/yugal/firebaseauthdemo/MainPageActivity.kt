@@ -9,10 +9,14 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_main_page.*
 import java.io.IOException
 
@@ -35,6 +39,34 @@ class MainPageActivity : AppCompatActivity() {
                 // Request permission
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                     121)
+            }
+        }
+
+        btn_upload_image.setOnClickListener{
+            if(mSelectedImageFileUri != null){
+                val imageExtension = MimeTypeMap.getSingleton()
+                    .getExtensionFromMimeType(contentResolver.getType(mSelectedImageFileUri!!))
+
+                val sRef : StorageReference = FirebaseStorage.getInstance().reference.child(
+                    "Image "+ System.currentTimeMillis()+"."+imageExtension
+                )
+                sRef.putFile(mSelectedImageFileUri!!)
+                    .addOnSuccessListener { taskSnapshot ->
+                        taskSnapshot.metadata!!.reference!!.downloadUrl
+                            .addOnSuccessListener {url ->
+                                tv_image_upload_success.text = "Your image was uploaded successfully : $url"
+                            }.addOnFailureListener{exception ->
+                                Toast.makeText(
+                                    this,
+                                    exception.message,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                Log.e(javaClass.simpleName, exception.message, exception)
+                            }
+                    }
+            }else{
+                Toast.makeText(this,"Please select the image to upload",
+                Toast.LENGTH_LONG).show()
             }
         }
 
