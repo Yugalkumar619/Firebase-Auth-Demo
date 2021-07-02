@@ -14,6 +14,7 @@ import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -55,6 +56,11 @@ class MainPageActivity : AppCompatActivity() {
                         taskSnapshot.metadata!!.reference!!.downloadUrl
                             .addOnSuccessListener {url ->
                                 tv_image_upload_success.text = "Your image was uploaded successfully : $url"
+
+                                Glide.with(this)
+                                    .load(url)
+                                    .placeholder(R.mipmap.ic_launcher)
+                                    .into(image_view)
                             }.addOnFailureListener{exception ->
                                 Toast.makeText(
                                     this,
@@ -97,7 +103,9 @@ class MainPageActivity : AppCompatActivity() {
                 if(data != null){
                     try {
                         mSelectedImageFileUri = data?.data
-                        image_view.setImageURI(mSelectedImageFileUri)
+                      //  image_view.setImageURI(mSelectedImageFileUri)
+                        Glide.with(this).load(mSelectedImageFileUri)
+                            .into(image_view)
                     }catch (e: IOException){
                         e.printStackTrace()
                         Toast.makeText(this@MainPageActivity, "Image selection Failed!",
